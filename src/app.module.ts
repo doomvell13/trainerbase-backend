@@ -31,12 +31,6 @@ import * as Joi from '@hapi/joi';
       },
       inject: [ConfigService],
     }),
-    // MongooseModule.forRoot(
-    //   'mongodb+srv://project4admin:abcd1234@cluster0.yf0o1.mongodb.net/trainerbase',
-    //   {
-    //     useNewUrlParser: true,
-    //   },
-    // ),
   ],
   controllers: [AppController],
   providers: [AppService],
