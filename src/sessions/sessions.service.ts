@@ -1,29 +1,47 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Session } from './interfaces/sessions.interface';
-import { CreateSessionDTO } from './dto/create-session.dto';
+import CreateSessionDTO from './dto/create-session.dto';
+import { Session, SessionDocument } from './schemas/sessions.schema';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class SessionsService {
   constructor(
-    //what is readonly?
-
-    @InjectModel('Session') private readonly sessionModel: Model<Session>,
+    @InjectModel(Session.name) private sessionModel: Model<SessionDocument>,
   ) {}
 
-  async addSession(createSessionDTO: CreateSessionDTO): Promise<Session> {
-    const newSession = await this.sessionModel.create(createSessionDTO);
-    return newSession;
+  async findAll() {
+    return this.sessionModel.find();
   }
 
-  async getSession(sessionID): Promise<Session> {
-    const session = await this.sessionModel.findById(sessionID).exec();
+  async findOne(session_id: string) {
+    const session = await this.sessionModel.findById(session_id);
+    if (!session) {
+      throw new NotFoundException();
+    }
     return session;
   }
 
-  async getSessions(): Promise<Session[]> {
-    const sessions = await this.sessionModel.find().exec();
-    return sessions;
+  create(sessionData: CreateSessionDTO) {
+    const createdSession = new this.sessionModel(sessionData);
+    return createdSession.save();
+  }
+
+  async update(session_id: string, sessionData: CreateSessionDTO) {
+    const session = await this.sessionModel
+      .findByIdAndUpdate(session_id, sessionData)
+      .setOptions({ overwrite: true, new: true });
+    if (!session) {
+      throw new NotFoundException();
+    }
+    return session;
+  }
+
+  async delete(session_id: string) {
+    const result = await this.sessionModel.findByIdAndDelete(session_id);
+    if (!result) {
+      throw new NotFoundException();
+    }
   }
 }

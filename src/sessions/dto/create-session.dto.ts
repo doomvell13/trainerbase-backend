@@ -3,7 +3,7 @@ import { IsString, IsNotEmpty, IsDate, IsBoolean } from 'class-validator';
 export class CreateSessionDTO {
   @IsString()
   @IsNotEmpty()
-  sessionID: string;
+  session_id: string;
 
   @IsString()
   @IsNotEmpty()
@@ -38,3 +38,5 @@ export class CreateSessionDTO {
   @IsNotEmpty()
   readonly verification: boolean;
 }
+
+export default CreateSessionDTO;

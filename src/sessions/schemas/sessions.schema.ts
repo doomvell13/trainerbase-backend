@@ -6,23 +6,31 @@ export type SessionDocument = Session & Document;
 @Schema()
 export class Session {
   @Prop()
-  meeting_id: String;
+  session_id: string;
+
   @Prop()
-  client_uid: String;
+  client_uid: string;
+
   @Prop()
-  trainer_uid: String;
+  trainer_uid: string;
+
   @Prop()
-  title: String;
+  title: string;
+
   @Prop()
-  date: String;
+  date: string;
+
   @Prop()
-  start: String;
+  start: string;
+
   @Prop()
-  end: String;
+  end: string;
+
   @Prop()
-  date_posted: String;
+  date_posted: string;
+
   @Prop()
-  verification: Boolean;
+  verification: boolean;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

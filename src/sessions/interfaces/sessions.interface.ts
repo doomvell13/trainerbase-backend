@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface Session extends Document {
-  readonly sessionID: string;
+  readonly session_id: string;
   readonly client_uid: string;
   readonly trainer_uid: string;
   readonly title: string;
