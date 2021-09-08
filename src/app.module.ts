@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import SessionsModule from './sessions/sessions.module';
 
 // import { SessionsModule } from './sessions/sessions.module';
+import { UsersModule } from './users/users.module';
 import * as Joi from '@hapi/joi';
 
 @Module({
@@ -31,6 +32,7 @@ import * as Joi from '@hapi/joi';
       inject: [ConfigService],
     }),
     SessionsModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
