@@ -18,6 +18,8 @@ export class SessionsController {
   async getAllSessions() {
     return this.sessionService.findAll();
   }
+  //create customer decorator - retrive user dece type user, take request - take cookies header and parase cookie -return user object
+  //reqest decorator- cookies jwt
 
   @Get(':session_id')
   async getSession(@Param() { session_id }: ValidatedID) {
