@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -11,6 +11,9 @@ export class UsersService {
 
   async getUserById(id: string): Promise<User> {
     return this.usersRepository.findOne(id);
+  }
+  async getUserByEmail(email: string): Promise<User> {
+    return this.usersRepository.find(email);
   }
 
   async getUsers(): Promise<User[]> {

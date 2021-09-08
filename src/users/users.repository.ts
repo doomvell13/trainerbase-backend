@@ -23,6 +23,10 @@ export class UsersRepository {
     return newUser.save();
   }
 
+  async find(email: string): Promise<User> {
+    return this.userModel.findOne({ email });
+  }
+
   async update(user: UpdateClientDto): Promise<User> {
     return await this.userModel.findOneAndUpdate(
       { _id: user.id },

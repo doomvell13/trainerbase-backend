@@ -4,10 +4,14 @@ import { UpdateClientDto } from './dto/update-client.dto';
 
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
+import { AuthService } from './auth.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   @Get(':id')
   async getUser(@Param('id') id: string): Promise<User> {
@@ -19,9 +23,9 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
-  @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.createUser(createUserDto);
+  @Post('/signup')
+  createUser(@Body() body: CreateUserDto): Promise<User> {
+    return this.authService.signup(body.email, body.password);
   }
 
   @Patch(':id/isTrainer')
