@@ -14,6 +14,7 @@ import RequestWithUser from './requestWithUser.interface';
 import { LocalAuthenticationGuard } from './localAuthentication.guard';
 import JwtAuthenticationGuard from './jwt-authentication.guard';
 import { User } from '../users/user.schema';
+import { Client } from '../clients/client.schema';
 import MongooseClassSerializerInterceptor from '../utils/mongooseClassSerializer.interceptor';
 
 @Controller('authentication')
@@ -24,6 +25,10 @@ export class AuthenticationController {
   @Post('register')
   async register(@Body() registrationData: RegisterDto) {
     return this.authenticationService.register(registrationData);
+  }
+  @Post('registerclient')
+  async registerClient(@Body() registrationData: RegisterDto) {
+    return this.authenticationService.registerClient(registrationData);
   }
 
   @HttpCode(200)

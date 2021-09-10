@@ -5,6 +5,7 @@ import { Session, SessionDocument } from './session.schema';
 import { NotFoundException } from '@nestjs/common';
 import SessionDto from './dto/session.dto';
 import { User } from '../users/user.schema';
+import { Client } from '../clients/client.schema';
 
 @Injectable()
 class SessionsService {
@@ -32,7 +33,11 @@ class SessionsService {
       ...sessionData,
       trainer,
     });
-    await createdSession.populate('categories').execPopulate();
+    await createdSession
+      .populate('client')
+      .populate('categories')
+      .execPopulate();
+
     return createdSession.save();
   }
 

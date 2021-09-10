@@ -13,21 +13,21 @@ class CategoriesService {
   ) {}
 
   async findAll() {
-    return this.categoryModel.find().populate('author');
+    return this.categoryModel.find().populate('trainer');
   }
 
   async findOne(id: string) {
-    const category = await this.categoryModel.findById(id).populate('author');
+    const category = await this.categoryModel.findById(id).populate('trainer');
     if (!category) {
       throw new NotFoundException();
     }
     return category;
   }
 
-  create(categoryData: CategoryDto, author: User) {
+  create(categoryData: CategoryDto, trainer: User) {
     const createdCategory = new this.categoryModel({
       ...categoryData,
-      author,
+      trainer,
     });
     return createdCategory.save();
   }

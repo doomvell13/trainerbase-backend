@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User } from '../users/user.schema';
+import { Client } from '../clients/client.schema';
 import { Transform, Type } from 'class-transformer';
 import { Category } from '../categories/category.schema';
 
@@ -25,6 +26,12 @@ export class Session {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   @Type(() => User)
   trainer: User;
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: Client.name }],
+  })
+  @Type(() => Client)
+  client: Client;
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],
