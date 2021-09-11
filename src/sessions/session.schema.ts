@@ -1,12 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
 import * as mongoose from 'mongoose';
-import { User } from '../users/user.schema';
-import { Client } from '../clients/client.schema';
-import { Transform, Type } from 'class-transformer';
-import { Category } from '../categories/category.schema';
-import { string } from '@hapi/joi';
 
+import { Type } from 'class-transformer';
+import { Category } from '../categories/category.schema';
 export type SessionDocument = Session & Document;
 
 @Schema()

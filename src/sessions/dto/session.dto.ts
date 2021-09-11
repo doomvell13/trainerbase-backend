@@ -1,4 +1,4 @@
-import { Expose, Transform, Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { IsString, IsNotEmpty } from 'class-validator';
 import { GetClientDto } from 'src/clients/dto/getClient.dto';
 import { UserDto } from 'src/users/dto/users.dtos';

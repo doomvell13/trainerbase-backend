@@ -16,7 +16,6 @@ import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 import RequestWithUser from '../authentication/requestWithUser.interface';
 // import RequestWithClient from '../authentication/requestWithClient.interface';
 import MongooseClassSerializerInterceptor from '../utils/mongooseClassSerializer.interceptor';
-import { Session as SessionModel } from './session.schema';
 import { GetSessionDto, SessionDto } from './dto/session.dto';
 
 @Controller('sessions')
