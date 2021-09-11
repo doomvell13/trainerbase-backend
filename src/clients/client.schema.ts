@@ -12,7 +12,6 @@ export type ClientDocument = Client & Document;
   },
 })
 export class Client {
-  @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
   @Prop({ unique: true })

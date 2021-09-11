@@ -5,12 +5,13 @@ import { User } from '../users/user.schema';
 import { Client } from '../clients/client.schema';
 import { Transform, Type } from 'class-transformer';
 import { Category } from '../categories/category.schema';
+import { string } from '@hapi/joi';
 
 export type SessionDocument = Session & Document;
 
 @Schema()
 export class Session {
-  @Transform(({ value }) => value.toString())
+  // @Transform(({ value }) => value.toString())
   _id: ObjectId;
 
   @Prop()
@@ -23,15 +24,22 @@ export class Session {
   })
   content: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  @Type(() => User)
-  trainer: User;
+  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  // @Type(() => User)
+  // trainer: User;
 
-  @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: Client.name }],
-  })
-  @Type(() => Client)
-  client: Client;
+  @Prop({ type: mongoose.Schema.Types.String })
+  @Type(() => String)
+  trainerId: string;
+
+  // @Prop({
+  //   type: { type: mongoose.Schema.Types.ObjectId, ref: Client.name },
+  // })
+  // @Type(() => Client)
+  // client: Client;
+  @Prop({ type: mongoose.Schema.Types.String })
+  @Type(() => String)
+  clientId: string;
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],

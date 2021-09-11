@@ -14,7 +14,6 @@ function MongooseClassSerializerInterceptor(
       if (!(document instanceof Document)) {
         return document;
       }
-
       return plainToClass(classToIntercept, document.toJSON());
     }
 
@@ -32,7 +31,12 @@ function MongooseClassSerializerInterceptor(
       response: PlainLiteralObject | PlainLiteralObject[],
       options: ClassTransformOptions,
     ) {
-      return super.serialize(this.prepareResponse(response), options);
+      console.log(classToIntercept);
+      console.log(response);
+      return plainToClass(classToIntercept, response, {
+        excludeExtraneousValues: true,
+      });
+      // return super.serialize(this.prepareResponse(response), options);
     }
   };
 }

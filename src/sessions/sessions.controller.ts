@@ -12,15 +12,15 @@ import {
 } from '@nestjs/common';
 import SessionsService from './sessions.service';
 import ParamsWithId from '../utils/paramsWithId';
-import SessionDto from './dto/session.dto';
 import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 import RequestWithUser from '../authentication/requestWithUser.interface';
 // import RequestWithClient from '../authentication/requestWithClient.interface';
 import MongooseClassSerializerInterceptor from '../utils/mongooseClassSerializer.interceptor';
 import { Session as SessionModel } from './session.schema';
+import { GetSessionDto, SessionDto } from './dto/session.dto';
 
 @Controller('sessions')
-@UseInterceptors(MongooseClassSerializerInterceptor(SessionModel))
+@UseInterceptors(MongooseClassSerializerInterceptor(GetSessionDto))
 export default class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
@@ -31,7 +31,8 @@ export default class SessionsController {
 
   @Get(':id')
   async getSession(@Param() { id }: ParamsWithId) {
-    return this.sessionsService.findOne(id);
+    const session = await this.sessionsService.findOne(id);
+    return session;
   }
 
   @Post()
@@ -40,7 +41,6 @@ export default class SessionsController {
     @Body() session: SessionDto,
     @Req() req: RequestWithUser,
   ) {
-    console.log(req.user);
     return this.sessionsService.create(session, req.user);
   }
 
