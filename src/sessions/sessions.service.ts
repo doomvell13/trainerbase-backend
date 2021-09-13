@@ -1,47 +1,67 @@
-import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import CreateSessionDTO from './dto/create-session.dto';
-import { Session, SessionDocument } from './schemas/sessions.schema';
+import { Session, SessionDocument } from './session.schema';
 import { NotFoundException } from '@nestjs/common';
+import { SessionDto } from './dto/session.dto';
+import { User, UserDocument } from '../users/user.schema';
+import { Client, ClientDocument } from '../clients/client.schema';
 
 @Injectable()
-export class SessionsService {
+class SessionsService {
   constructor(
     @InjectModel(Session.name) private sessionModel: Model<SessionDocument>,
+    @InjectModel(Client.name) private clientModel: Model<ClientDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
   async findAll() {
-    return this.sessionModel.find();
+    return this.sessionModel.find().populate('trainer').populate('categories');
   }
 
-  async findOne(session_id: string) {
-    const session = await this.sessionModel.findById(session_id);
+  async findOne(id: string) {
+    const session = await this.sessionModel.findById(id).lean();
     if (!session) {
       throw new NotFoundException();
     }
-    return session;
+    const user =
+      session.trainerId && (await this.userModel.findById(session.trainerId));
+    const client =
+      session.clientId && (await this.clientModel.findById(session.clientId));
+
+    return {
+      ...session,
+      client,
+      trainer: user,
+    };
   }
 
-  create(sessionData: CreateSessionDTO) {
-    const createdSession = new this.sessionModel(sessionData);
-    return createdSession.save();
+  create(sessionData: SessionDto, trainer: User): Promise<SessionDocument> {
+    return this.sessionModel.create({
+      content: sessionData.content,
+      trainerId: trainer._id,
+      clientId: sessionData.clientId,
+    });
   }
 
-  async update(session_id: string, sessionData: CreateSessionDTO) {
+  async update(id: string, sessionData: SessionDto) {
     const session = await this.sessionModel
-      .findByIdAndUpdate(session_id, sessionData)
-      .setOptions({ overwrite: true, new: true });
+      .findByIdAndUpdate(id, sessionData)
+      .setOptions({ overwrite: true, new: true })
+      .populate('trainer')
+      .populate('categories');
     if (!session) {
       throw new NotFoundException();
     }
     return session;
   }
 
-  async delete(session_id: string) {
-    const result = await this.sessionModel.findByIdAndDelete(session_id);
+  async delete(sessionId: string) {
+    const result = await this.sessionModel.findByIdAndDelete(sessionId);
     if (!result) {
       throw new NotFoundException();
     }
   }
 }
+
+export default SessionsService;

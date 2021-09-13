@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import SessionsModule from './sessions/sessions.module';
-
-// import { SessionsModule } from './sessions/sessions.module';
 import * as Joi from '@hapi/joi';
+import { AuthenticationModule } from './authentication/authentication.module';
+import CategoriesModule from './categories/categories.module';
 
 @Module({
   imports: [
@@ -13,17 +13,12 @@ import * as Joi from '@hapi/joi';
         MONGO_USERNAME: Joi.string().required(),
         MONGO_PASSWORD: Joi.string().required(),
         MONGO_DATABASE: Joi.string().required(),
-        MONGO_PATH: Joi.string().required(),
+        MONGO_HOST: Joi.string().required(),
       }),
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
-        // const username = configService.get('MONGO_USERNAME');
-        // const password = configService.get('MONGO_PASSWORD');
-        // const database = configService.get('MONGO_DATABASE');
-        const host = configService.get('MONGO_HOST');
-
         return {
           uri: configService.get('MONGO_PATH'),
         };
@@ -31,6 +26,8 @@ import * as Joi from '@hapi/joi';
       inject: [ConfigService],
     }),
     SessionsModule,
+    AuthenticationModule,
+    CategoriesModule,
   ],
   controllers: [],
   providers: [],

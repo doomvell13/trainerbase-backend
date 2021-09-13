@@ -1,44 +1,58 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
-  Body,
   Put,
-  Delete,
+  Req,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { SessionsService } from './sessions.service';
-import CreateSessionDTO from './dto/create-session.dto';
-import ValidatedID from './shared/pipes/validated-id.pipes';
+import SessionsService from './sessions.service';
+import ParamsWithId from '../utils/paramsWithId';
+import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
+import RequestWithUser from '../authentication/requestWithUser.interface';
+// import RequestWithClient from '../authentication/requestWithClient.interface';
+import MongooseClassSerializerInterceptor from '../utils/mongooseClassSerializer.interceptor';
+import { GetSessionDto, SessionDto } from './dto/session.dto';
 
 @Controller('sessions')
-export class SessionsController {
-  constructor(private readonly sessionService: SessionsService) {}
+@UseInterceptors(MongooseClassSerializerInterceptor(GetSessionDto))
+export default class SessionsController {
+  constructor(private readonly sessionsService: SessionsService) {}
+
   @Get()
   async getAllSessions() {
-    return this.sessionService.findAll();
+    return this.sessionsService.findAll();
   }
 
-  @Get(':session_id')
-  async getSession(@Param() { session_id }: ValidatedID) {
-    return this.sessionService.findOne(session_id);
+  @Get(':id')
+  async getSession(@Param() { id }: ParamsWithId) {
+    const session = await this.sessionsService.findOne(id);
+    return session;
   }
 
   @Post()
-  async createSession(@Body() createSessionDto: CreateSessionDTO) {
-    return this.sessionService.create(createSessionDto);
-  }
-
-  @Delete(':session_id')
-  async deleteSession(@Param() { session_id }: ValidatedID) {
-    return this.sessionService.delete(session_id);
-  }
-
-  @Put('session_id')
-  async updateSession(
-    @Param() { session_id }: ValidatedID,
-    @Body() session: CreateSessionDTO,
+  @UseGuards(JwtAuthenticationGuard)
+  async createSession(
+    @Body() session: SessionDto,
+    @Req() req: RequestWithUser,
   ) {
-    return this.sessionService.update(session_id, session);
+    return this.sessionsService.create(session, req.user);
+  }
+
+  @Delete(':id')
+  async deleteSession(@Param() { id }: ParamsWithId) {
+    return this.sessionsService.delete(id);
+  }
+
+  @Put(':id')
+  async updateSession(
+    @Param() { id }: ParamsWithId,
+    @Body() session: SessionDto,
+  ) {
+    return this.sessionsService.update(id, session);
   }
 }
