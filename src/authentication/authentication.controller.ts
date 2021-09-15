@@ -16,6 +16,7 @@ import JwtAuthenticationGuard from './jwt-authentication.guard';
 import { User } from '../users/user.schema';
 import { Client } from '../clients/client.schema';
 import MongooseClassSerializerInterceptor from '../utils/mongooseClassSerializer.interceptor';
+import { response } from 'express';
 
 @Controller('authentication')
 @UseInterceptors(MongooseClassSerializerInterceptor(User))
@@ -38,6 +39,7 @@ export class AuthenticationController {
     const { user } = request;
     const cookie = this.authenticationService.getCookieWithJwtToken(user._id);
     request.res?.setHeader('Set-Cookie', cookie);
+    JSON.stringify(user);
     return user;
   }
 
@@ -54,6 +56,12 @@ export class AuthenticationController {
   @UseGuards(JwtAuthenticationGuard)
   @Get()
   authenticate(@Req() request: RequestWithUser) {
+    return request.user;
+  }
+
+  @UseGuards(JwtAuthenticationGuard)
+  @Get('/current-user')
+  getAuthenticatedUser(@Req() request: RequestWithUser) {
     return request.user;
   }
 }

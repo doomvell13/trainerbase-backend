@@ -31,8 +31,8 @@ function MongooseClassSerializerInterceptor(
       response: PlainLiteralObject | PlainLiteralObject[],
       // options: ClassTransformOptions,
     ) {
-      console.log(classToIntercept);
-      console.log(response);
+      // console.log(classToIntercept);
+      // console.log(response);
       return plainToClass(classToIntercept, response, {
         excludeExtraneousValues: true,
       });
