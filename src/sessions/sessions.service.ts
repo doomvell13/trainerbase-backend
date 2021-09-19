@@ -26,21 +26,22 @@ class SessionsService {
     }
     const user =
       session.trainerId && (await this.userModel.findById(session.trainerId));
-    const client =
-      session.clientId && (await this.clientModel.findById(session.clientId));
+    // const client =
+    //   session.clientId && (await this.clientModel.findById(session.clientId));
 
     return {
       ...session,
-      client,
+      // client,
       trainer: user,
     };
   }
 
   create(sessionData: SessionDto, trainer: User): Promise<SessionDocument> {
+    // console.log(sessionData);
     return this.sessionModel.create({
-      content: sessionData.content,
+      ...sessionData,
       trainerId: trainer._id,
-      clientId: sessionData.clientId,
+      // clientId: sessionData.clientId,
     });
   }
 

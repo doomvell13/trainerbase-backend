@@ -43,6 +43,9 @@ export class User {
 
   @Type(() => Session)
   posts: Session[];
+
+  @Expose()
+  token?: string;
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

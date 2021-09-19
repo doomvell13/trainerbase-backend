@@ -2,11 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { ClientsService } from '../clients/clients.service';
 import RegisterDto from './dto/register.dto';
+import RegisterClientDto from './dto/registerclient.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import TokenPayload from './tokenPayload.interface';
 import MongoError from '../utils/mongoError.enum';
+import { User, UserDocument } from '../users/user.schema';
 
 @Injectable()
 export class AuthenticationService {
@@ -65,6 +67,11 @@ export class AuthenticationService {
     return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
       'JWT_EXPIRATION_TIME',
     )}`;
+  }
+
+  getJWTWithUserId(userId: string) {
+    const payload: TokenPayload = { userId };
+    return this.jwtService.sign(payload);
   }
 
   public getCookieForLogOut() {

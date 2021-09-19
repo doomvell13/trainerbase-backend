@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
 import { Exclude, Transform, Type } from 'class-transformer';
-import { Address, AddressSchema } from './address.schema';
+// import { Address, AddressSchema } from './address.schema';
 import { User, UserSchema } from '../users/user.schema';
 export type ClientDocument = Client & Document;
 
@@ -32,9 +32,9 @@ export class Client {
   @Prop({ enum: ['TRAINER', 'CLIENT'] })
   role: string;
 
-  @Prop({ type: AddressSchema })
-  @Type(() => Address)
-  address: Address;
+  // @Prop({ type: AddressSchema })
+  // @Type(() => Address)
+  // address: Address;
 
   @Prop({ type: UserSchema })
   @Type(() => User)

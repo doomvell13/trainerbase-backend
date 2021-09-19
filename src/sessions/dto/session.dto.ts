@@ -1,5 +1,5 @@
 import { Expose, Type } from 'class-transformer';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 import { GetClientDto } from 'src/clients/dto/getClient.dto';
 import { UserDto } from 'src/users/dto/users.dtos';
 
@@ -10,20 +10,37 @@ export class SessionDto {
 
   @IsString()
   @IsNotEmpty()
-  content: string;
+  description: string;
+
+  // @IsString()
+  // clientId: string;
 
   @IsString()
-  @IsNotEmpty()
-  clientId: string;
+  start: string;
+
+  @IsString()
+  end: string;
 }
 
 export class GetSessionDto {
   @Expose()
-  content: string;
+  id: string;
 
   @Expose()
-  @Type(() => GetClientDto)
-  client: GetClientDto;
+  title: string;
+
+  @Expose()
+  description: string;
+
+  // @Expose()
+  // @Type(() => GetClientDto)
+  // client: GetClientDto;
+
+  @Expose()
+  start: string;
+
+  @Expose()
+  end: string;
 
   @Expose()
   @Type(() => UserDto)

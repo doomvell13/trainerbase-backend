@@ -19,7 +19,13 @@ export class Session {
       return content.trim();
     },
   })
-  content: string;
+  description: string;
+
+  @Prop()
+  start: string;
+
+  @Prop()
+  end: string;
 
   // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   // @Type(() => User)
@@ -34,9 +40,9 @@ export class Session {
   // })
   // @Type(() => Client)
   // client: Client;
-  @Prop({ type: mongoose.Schema.Types.String })
-  @Type(() => String)
-  clientId: string;
+  // @Prop({ type: mongoose.Schema.Types.String })
+  // @Type(() => String)
+  // clientId: string;
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],

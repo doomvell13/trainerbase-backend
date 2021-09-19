@@ -1,3 +1,6 @@
+import { Expose, Type } from 'class-transformer';
+import { UserDto } from 'src/users/dto/users.dtos';
+
 export class CreateClientDto {
   email: string;
 
@@ -5,9 +8,9 @@ export class CreateClientDto {
 
   lastName: string;
 
-  password: string;
-
   role: string;
+
+  password: string;
 }
 
 export default CreateClientDto;
