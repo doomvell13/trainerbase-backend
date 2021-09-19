@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import RegisterDto from './dto/register.dto';
+import RegisterClientDto from './dto/registerclient.dto';
+
 import RequestWithUser from './requestWithUser.interface';
 import { LocalAuthenticationGuard } from './localAuthentication.guard';
 import JwtAuthenticationGuard from './jwt-authentication.guard';
@@ -24,10 +26,6 @@ export class AuthenticationController {
   @Post('register')
   async register(@Body() registrationData: RegisterDto) {
     return this.authenticationService.register(registrationData);
-  }
-  @Post('registerclient')
-  async registerClient(@Body() registrationData: RegisterDto) {
-    return this.authenticationService.registerClient(registrationData);
   }
 
   @HttpCode(200)

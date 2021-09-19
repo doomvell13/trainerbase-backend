@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ClientDocument, Client } from './client.schema';
 import { User, UserDocument } from '../users/user.schema';
-import CreateClientDto from './dto/createClient.dto';
+import { CreateClientDto, GetClientDto } from './dto/createClient.dto';
 
 @Injectable()
 export class ClientsService {
@@ -39,13 +39,45 @@ export class ClientsService {
     return client;
   }
 
-  async create(clientData: CreateClientDto) {
-    const createdClient = new this.clientModel(clientData);
-    await createdClient
-      .populate({
-        path: 'trainer',
-      })
-      .execPopulate();
-    return createdClient.save();
+  async findAll() {
+    return this.clientModel.find().populate('trainer');
+  }
+
+  async findOne(id: string) {
+    const client = await this.clientModel.findById(id).lean();
+    if (!client) {
+      throw new NotFoundException();
+    }
+    const user =
+      client.trainer && (await this.userModel.findById(client.trainer));
+    // const client =
+    //   session.clientId && (await this.clientModel.findById(session.clientId));
+
+    return {
+      ...client,
+      // client,
+      trainer: user,
+    };
+  }
+
+  async update(id: string, clientData: GetClientDto) {
+    const client = await this.clientModel
+      .findByIdAndUpdate(id, clientData)
+      .setOptions({ overwrite: true, new: true })
+      .populate('trainer');
+
+    if (!client) {
+      throw new NotFoundException();
+    }
+    return client;
+  }
+
+  create(clientData: CreateClientDto, trainer: User): Promise<ClientDocument> {
+    // console.log(sessionData);
+    return this.clientModel.create({
+      ...clientData,
+      trainerId: trainer._id,
+      // clientId: sessionData.clientId,
+    });
   }
 }

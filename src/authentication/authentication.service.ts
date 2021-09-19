@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import TokenPayload from './tokenPayload.interface';
 import MongoError from '../utils/mongoError.enum';
 import { User, UserDocument } from '../users/user.schema';
+import { targetModulesByContainer } from '@nestjs/core/router/router-module';
 
 @Injectable()
 export class AuthenticationService {
@@ -24,33 +25,11 @@ export class AuthenticationService {
     try {
       return await this.usersService.create({
         ...registrationData,
-        password: hashedPassword,
       });
     } catch (error) {
       if (error?.code === MongoError.DuplicateKey) {
         throw new HttpException(
           'User with that email already exists',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      throw new HttpException(
-        'Something went wrong',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  public async registerClient(registrationData: RegisterDto) {
-    const hashedPassword = await bcrypt.hash(registrationData.password, 10);
-    try {
-      return await this.clientsService.create({
-        ...registrationData,
-        password: hashedPassword,
-      });
-    } catch (error) {
-      if (error?.code === MongoError.DuplicateKey) {
-        throw new HttpException(
-          'Client with that email already exists',
           HttpStatus.BAD_REQUEST,
         );
       }

@@ -15,6 +15,8 @@ export class RegisterClientDto {
   @IsString()
   @IsNotEmpty()
   role: any;
+
+  trainer: any;
 }
 
 export default RegisterClientDto;
