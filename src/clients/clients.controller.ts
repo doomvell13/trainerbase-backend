@@ -14,7 +14,7 @@ import { ClientsService } from './clients.service';
 import ParamsWithId from '../utils/paramsWithId';
 import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 import RequestWithUser from '../authentication/requestWithUser.interface';
-// import RequestWithClient from '../authentication/requestWithClient.interface';
+import RequestWithClient from '../authentication/requestWithClient.interface';
 import MongooseClassSerializerInterceptor from '../utils/mongooseClassSerializer.interceptor';
 import { CreateClientDto, GetClientDto } from './dto/createClient.dto';
 

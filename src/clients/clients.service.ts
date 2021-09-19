@@ -49,7 +49,7 @@ export class ClientsService {
       throw new NotFoundException();
     }
     const user =
-      client.trainer && (await this.userModel.findById(client.trainer));
+      client.trainerId && (await this.userModel.findById(client.trainerId));
     // const client =
     //   session.clientId && (await this.clientModel.findById(session.clientId));
 
@@ -63,8 +63,7 @@ export class ClientsService {
   async update(id: string, clientData: GetClientDto) {
     const client = await this.clientModel
       .findByIdAndUpdate(id, clientData)
-      .setOptions({ overwrite: true, new: true })
-      .populate('trainer');
+      .setOptions({ overwrite: true, new: true });
 
     if (!client) {
       throw new NotFoundException();

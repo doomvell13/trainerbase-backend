@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { ClientDocument } from '../clients/client.schema';
 
 interface RequestWithClient extends Request {
-  user: ClientDocument;
+  client: ClientDocument;
 }
 
 export default RequestWithClient;

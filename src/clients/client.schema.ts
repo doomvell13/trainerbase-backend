@@ -38,7 +38,7 @@ export class Client {
 
   @Prop({ type: UserSchema })
   @Type(() => User)
-  trainer: User;
+  trainerId: User;
 }
 
 const ClientSchema = SchemaFactory.createForClass(Client);
