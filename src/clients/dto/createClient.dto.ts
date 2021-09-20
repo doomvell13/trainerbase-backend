@@ -9,8 +9,6 @@ export class CreateClientDto {
   lastName: string;
 
   role: string;
-
-  password: string;
 }
 
 export default CreateClientDto;

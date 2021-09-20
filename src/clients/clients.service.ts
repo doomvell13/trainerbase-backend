@@ -39,7 +39,10 @@ export class ClientsService {
     return client;
   }
 
-  async create(clientData: CreateClientDto) {
+  async create(
+    clientData: CreateClientDto,
+    trainer: User,
+  ): Promise<ClientDocument> {
     const createdClient = new this.clientModel(clientData);
     await createdClient
       .populate({

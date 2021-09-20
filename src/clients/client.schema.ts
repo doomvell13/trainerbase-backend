@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
 import { Document, ObjectId } from 'mongoose';
 import { Exclude, Transform, Type } from 'class-transformer';
 // import { Address, AddressSchema } from './address.schema';
@@ -25,9 +26,9 @@ export class Client {
 
   fullName: string;
 
-  @Prop()
-  @Exclude()
-  password: string;
+  // @Prop()
+  // @Exclude()
+  // password: string;
 
   @Prop({ enum: ['TRAINER', 'CLIENT'] })
   role: string;
@@ -36,9 +37,9 @@ export class Client {
   // @Type(() => Address)
   // address: Address;
 
-  @Prop({ type: UserSchema })
-  @Type(() => User)
-  trainer: User;
+  @Prop({ type: mongoose.Schema.Types.String })
+  @Type(() => String)
+  trainerId: string;
 }
 
 const ClientSchema = SchemaFactory.createForClass(Client);

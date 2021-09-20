@@ -25,10 +25,6 @@ export class AuthenticationController {
   async register(@Body() registrationData: RegisterDto) {
     return this.authenticationService.register(registrationData);
   }
-  @Post('registerclient')
-  async registerClient(@Body() registrationData: RegisterDto) {
-    return this.authenticationService.registerClient(registrationData);
-  }
 
   @HttpCode(200)
   @UseGuards(LocalAuthenticationGuard)

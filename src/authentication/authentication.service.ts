@@ -40,27 +40,6 @@ export class AuthenticationService {
     }
   }
 
-  public async registerClient(registrationData: RegisterDto) {
-    const hashedPassword = await bcrypt.hash(registrationData.password, 10);
-    try {
-      return await this.clientsService.create({
-        ...registrationData,
-        password: hashedPassword,
-      });
-    } catch (error) {
-      if (error?.code === MongoError.DuplicateKey) {
-        throw new HttpException(
-          'Client with that email already exists',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      throw new HttpException(
-        'Something went wrong',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
   public getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
