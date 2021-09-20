@@ -37,10 +37,10 @@ export default class ClientsController {
   @Post('register')
   @UseGuards(JwtAuthenticationGuard)
   async createClient(
-    @Body() session: CreateClientDto,
+    @Body() client: CreateClientDto,
     @Req() req: RequestWithUser,
   ) {
-    return this.clientsService.create(session, req.user);
+    return this.clientsService.create(client, req.user);
   }
 
   @Put(':id')

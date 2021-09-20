@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Exclude, Type } from 'class-transformer';
 // import { Address, AddressSchema } from './address.schema';
 import { User, UserSchema } from '../users/user.schema';
@@ -36,9 +37,9 @@ export class Client {
   // @Type(() => Address)
   // address: Address;
 
-  @Prop({ type: UserSchema })
-  @Type(() => User)
-  trainerId: User;
+  @Prop({ type: mongoose.Schema.Types.String })
+  @Type(() => String)
+  trainerId: string;
 }
 
 const ClientSchema = SchemaFactory.createForClass(Client);

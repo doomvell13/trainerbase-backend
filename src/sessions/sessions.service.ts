@@ -46,6 +46,7 @@ class SessionsService {
   }
 
   async update(id: string, sessionData: SessionDto) {
+    console.log(sessionData);
     const session = await this.sessionModel
       .findByIdAndUpdate(id, sessionData)
       .setOptions({ overwrite: true, new: true })
