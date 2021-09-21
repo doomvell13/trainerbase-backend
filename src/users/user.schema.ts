@@ -15,7 +15,7 @@ export type UserDocument = User & Document;
 export class User {
   _id: ObjectId;
 
-  @Prop({ unique: true })
+  @Prop()
   @Expose()
   email: string;
 

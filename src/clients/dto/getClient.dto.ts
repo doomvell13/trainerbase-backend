@@ -12,6 +12,9 @@ export class GetClientDto {
   @Expose()
   lastName: string;
 
+  @Expose()
+  email: string;
+
   // @Expose()
   // @Type(() => GetClientDto)
   // client: GetClientDto;

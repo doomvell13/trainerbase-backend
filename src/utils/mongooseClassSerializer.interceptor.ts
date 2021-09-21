@@ -32,7 +32,7 @@ function MongooseClassSerializerInterceptor(
       // options: ClassTransformOptions,
     ) {
       // console.log(classToIntercept);
-      // console.log(response);
+
       return plainToClass(classToIntercept, response, {
         excludeExtraneousValues: true,
       });

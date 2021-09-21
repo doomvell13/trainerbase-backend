@@ -6,16 +6,11 @@ import { Exclude, Transform, Type } from 'class-transformer';
 import { User, UserSchema } from '../users/user.schema';
 export type ClientDocument = Client & Document;
 
-@Schema({
-  toJSON: {
-    getters: true,
-    virtuals: true,
-  },
-})
+@Schema()
 export class Client {
   _id: ObjectId;
 
-  @Prop({ unique: true })
+  @Prop()
   email: string;
 
   @Prop()
@@ -24,7 +19,7 @@ export class Client {
   @Prop()
   lastName: string;
 
-  fullName: string;
+  // fullName: string;
 
   // @Prop()
   // @Exclude()
@@ -42,10 +37,8 @@ export class Client {
   trainerId: string;
 }
 
-const ClientSchema = SchemaFactory.createForClass(Client);
+export const ClientSchema = SchemaFactory.createForClass(Client);
 
-ClientSchema.virtual('fullName').get(function (this: Client) {
-  return `${this.firstName} ${this.lastName}`;
-});
-
-export { ClientSchema };
+// ClientSchema.virtual('fullName').get(function (this: Client) {
+//   return `${this.firstName} ${this.lastName}`;
+// });
