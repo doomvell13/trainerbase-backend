@@ -25,10 +25,6 @@ export class AuthenticationController {
   async register(@Body() registrationData: RegisterDto) {
     return this.authenticationService.register(registrationData);
   }
-  @Post('registerclient')
-  async registerClient(@Body() registrationData: RegisterDto) {
-    return this.authenticationService.registerClient(registrationData);
-  }
 
   @HttpCode(200)
   @UseGuards(LocalAuthenticationGuard)
@@ -40,10 +36,8 @@ export class AuthenticationController {
     // console.log(cookie);
     // request.res?.setHeader('Set-Cookie', cookie);
     // JSON.stringify(user);
-
     const userjson = user.toJSON();
     userjson.token = jwt;
-
     return userjson;
   }
 

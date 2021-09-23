@@ -12,7 +12,7 @@ export class UsersService {
     const user = await this.userModel.findOne({ email }).populate({
       path: 'posts',
       populate: {
-        path: 'categories',
+        path: 'clients',
       },
     });
 
@@ -24,12 +24,10 @@ export class UsersService {
   }
 
   async getById(id: string) {
-    const user = await this.userModel.findById(id).populate({
-      path: 'sessions',
-      populate: {
-        path: 'categories',
-      },
-    });
+    const user = await this.userModel
+      .findById(id)
+      .populate('sessions')
+      .populate('clients');
 
     if (!user) {
       throw new NotFoundException();
@@ -47,6 +45,7 @@ export class UsersService {
           path: 'categories',
         },
       })
+      .populate({ path: 'clients' })
       .execPopulate();
     return createdUser.save();
   }

@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { ClientDocument, Client } from './client.schema';
 import { User, UserDocument } from '../users/user.schema';
 import CreateClientDto from './dto/createClient.dto';
+import { ObjectUnsubscribedError } from 'rxjs';
 
 @Injectable()
 export class ClientsService {
@@ -39,13 +40,24 @@ export class ClientsService {
     return client;
   }
 
-  async create(clientData: CreateClientDto) {
-    const createdClient = new this.clientModel(clientData);
-    await createdClient
-      .populate({
-        path: 'trainer',
-      })
-      .execPopulate();
-    return createdClient.save();
+  async create(
+    clientData: CreateClientDto,
+    trainer: User,
+  ): Promise<ClientDocument> {
+    // console.log({
+    //   ...clientData,
+    //   trainerId: ,
+    // });
+    return this.clientModel.create({
+      ...clientData,
+      trainerId: trainer._id,
+    });
+    // const createdClient = new this.clientModel(clientData);
+    // await createdClient
+    //   .populate({
+    //     path: 'trainer',
+    //   })
+    //   .execPopulate();
+    // return createdClient.save();
   }
 }
