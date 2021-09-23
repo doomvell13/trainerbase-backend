@@ -36,10 +36,8 @@ export class AuthenticationController {
     // console.log(cookie);
     // request.res?.setHeader('Set-Cookie', cookie);
     // JSON.stringify(user);
-
     const userjson = user.toJSON();
     userjson.token = jwt;
-
     return userjson;
   }
 

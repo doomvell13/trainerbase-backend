@@ -1,8 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, ObjectId } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
 import { Address, AddressSchema } from './address.schema';
 import { Session } from '../sessions/session.schema';
+import { Client, ClientSchema } from '../clients/client.schema';
 
 export type UserDocument = User & Document;
 
@@ -46,6 +48,15 @@ export class User {
 
   @Expose()
   token?: string;
+
+  // @Prop({ type: ClientSchema })
+  // @Type(() => Client)
+  // clients: Client;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Client.name })
+  @Type(() => Client)
+  @Expose()
+  clients: Client;
 }
 
 const UserSchema = SchemaFactory.createForClass(User);
